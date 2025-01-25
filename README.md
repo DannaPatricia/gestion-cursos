@@ -150,7 +150,7 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 
  6. **Uno de los mensajes de error disponibles**:
 <div align = "center">
-   <img width = "850px"  height = "300px" src = "./imagenesPHP/mensajeError.png" alt = "mensajeError">
+   <img width = "850px"  height = "300px" src = "./imagenesPHP/mensajesError.png" alt = "mensajeError">
 </div>
 
 ---
