@@ -115,6 +115,23 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 ---
 
 ## 📸 Capturas de Pantalla
+ 1. **Registro y login**:
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/registro.png" alt = "registro">
+</div>
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/login.png" alt = "login">
+</div>
+
+ 2. **Página principal**:
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/paginaPrincipal.png" alt = "paginaPrincipal.png">
+</div>
+
+ 4. **Opdiones de administrador**:
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/menuAdministrador.png" alt = "menuAdministrador">
+</div>
 
 ---
 
