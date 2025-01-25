@@ -125,12 +125,32 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 
  2. **Página principal**:
 <div align = "center">
-   <img width = "850px" src = "./imagenesPHP/paginaPrincipal.png" alt = "paginaPrincipal.png">
+   <img width = "850px" src = "./imagenesPHP/paginaPrincipal.png" alt = "paginaPrincipal">
 </div>
 
  4. **Opdiones de administrador**:
 <div align = "center">
-   <img width = "850px" src = "./imagenesPHP/menuAdministrador.png" alt = "menuAdministrador">
+   <img width = "850px" height = "300px" src = "./imagenesPHP/menuAdministrador.png" alt = "menuAdministrador">
+</div>
+
+ 5. **Formulario insertar curso**:
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/insertarCurso.png" alt = "insertarCurso">
+</div>
+
+ 6. **Menú baremación**:
+<div align = "center">
+   <img width = "850px" src = "./imagenesPHP/menuBaremacion.png" alt = "menuBaremacion">
+</div>
+
+ 5. **Listado de baremación realizada**:
+<div align = "center">
+   <img width = "850px"  height = "300px" src = "./imagenesPHP/resultadoBaremacion.png" alt = "resultadoBaremacion">
+</div>
+
+ 6. **Uno de los mensajes de error disponibles**:
+<div align = "center">
+   <img width = "850px"  height = "300px" src = "./imagenesPHP/mensajeError.png" alt = "mensajeError">
 </div>
 
 ---
