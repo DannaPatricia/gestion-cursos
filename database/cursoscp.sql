@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.2.1deb3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 20-01-2025 a las 21:16:34
--- Versión del servidor: 8.0.40-0ubuntu0.22.04.1
--- Versión de PHP: 8.1.2-1ubuntu2.20
+-- Tiempo de generación: 31-01-2025 a las 08:22:12
+-- Versión del servidor: 8.0.40-0ubuntu0.24.04.1
+-- Versión de PHP: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,11 +40,11 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`codigo`, `nombre`, `abierto`, `numeroplazas`, `plazoinscripcion`) VALUES
-(1, 'JavaScript', 1, 27, '2025-05-30'),
-(2, 'PHP', 0, 2, '2024-05-08'),
-(3, 'Bases de Datos', 1, 19, '2025-07-10'),
-(4, 'Desarrollo Web', 1, 20, '2025-08-01'),
-(5, 'Programación en Java', 1, 15, '2025-06-25'),
+(1, 'JavaScript', 1, 16, '2025-05-30'),
+(2, 'PHP', 0, 4, '2024-06-06'),
+(3, 'Bases de Datos', 1, 17, '2025-07-10'),
+(4, 'Desarrollo Web', 1, 18, '2025-08-01'),
+(5, 'Programación en Java', 0, 15, '2025-06-25'),
 (6, 'Ciberseguridad', 1, 9, '2025-07-20'),
 (7, 'Diseño Web', 0, 10, '2025-06-30'),
 (8, 'Frameworks Web', 1, 18, '2025-09-10'),
@@ -81,12 +81,11 @@ CREATE TABLE `solicitantes` (
 --
 
 INSERT INTO `solicitantes` (`dni`, `apellidos`, `nombre`, `telefono`, `correo`, `codigocentro`, `coordinadortc`, `grupotc`, `nombregrupo`, `pbilin`, `cargo`, `nombrecargo`, `situacion`, `fechanac`, `especialidad`, `puntos`) VALUES
-('12345678A', 'admin', 'admin', '143569764', NULL, '012A', 0, 1, 'informatica', 1, 0, 'informatica', 'inactivo', '2004-11-18', 'dam', 7),
-('12345678B', 'elUsuario1', 'Elusuario', '987654321', 'user1@gmail.com', '012A', 1, 0, 'grupoA', 1, 1, '', 'inactivo', '2004-12-03', 'Dam', 8),
-('38594400F', 'paca', 'Paca', '339584712', 'user9@gmail.com', '012A', 0, 1, 'grupoC', 1, 1, 'secretario', 'inactivo', '2004-12-29', 'dam', 9),
-('38919977Y', 'Sal', 'Karen', '992864773', 'user5@gmail.com', '012A', 1, 0, 'informatica', 0, 1, 'informatica', 'activo', '2004-12-07', 'dam', 6),
-('40385018G', 'pepe', 'elUsuario3', '638204938', NULL, '012A', 0, 1, 'informatica', 0, 1, 'informatica', 'activo', '2004-11-16', 'dam', 5),
-('98375649', 'pol', 'benito', '93827564', 'user6@gmail.com', '012A', 0, 1, 'grupob', 0, 1, '', 'inactivo', '2004-12-30', 'Dam', 4);
+('34491564R', 'Torero', 'Tomas', '433678254', 'tomas@domenico.es', '0D12', 1, 1, 'daw', 0, 0, 'vacio', 'activo', '2000-11-24', 'daw', 9),
+('38919977Y', 'Sal', 'Karen', '992864773', 'karen@domenico.es', '0A12', 1, 1, 'daw', 1, 1, 'secretario', 'activo', '1997-03-21', 'daw', 14),
+('43905889J', 'Torres', 'Maria', '455682267', 'maria@domenico.es', '0B12', 0, 1, 'daw', 0, 1, 'becario', 'inactivo', '2001-03-24', 'daw', 4),
+('67492665W', 'Ruiz', 'Paca', '233658368', 'paca@domenico.es', '0E12', 0, 1, 'daw', 1, 1, 'becario', 'inactivo', '1997-12-11', 'daw', 7),
+('98736290B', 'juarez', 'Paco', '482603366', 'paco@domenico.es', '0C12', 0, 1, 'daw', 1, 0, 'vacio', 'inactivo', '1997-08-29', 'daw', 7);
 
 -- --------------------------------------------------------
 
@@ -106,19 +105,22 @@ CREATE TABLE `solicitudes` (
 --
 
 INSERT INTO `solicitudes` (`dni`, `codigocurso`, `fechasolicitud`, `admitido`) VALUES
-('12345678A', 1, '2025-01-12', NULL),
-('12345678A', 3, '2025-01-12', 1),
-('12345678A', 4, '2025-01-12', NULL),
-('12345678A', 6, '2025-01-13', NULL),
-('12345678A', 8, '2025-01-12', NULL),
-('12345678B', 1, '2025-01-14', NULL),
-('12345678B', 2, '2024-01-01', 1),
-('38594400F', 1, '2025-01-14', NULL),
-('38919977Y', 2, '2023-09-05', 1),
-('38919977Y', 3, '2025-01-12', 1),
-('38919977Y', 4, '2025-01-12', NULL),
-('40385018G', 2, '2024-02-08', NULL),
-('98375649', 2, '2024-03-08', NULL);
+('34491564R', 2, '2025-02-05', 0),
+('34491564R', 3, '2025-01-31', NULL),
+('34491564R', 5, '2025-02-14', NULL),
+('38919977Y', 2, '2023-04-06', 0),
+('38919977Y', 3, '2025-01-31', NULL),
+('38919977Y', 5, '2023-02-02', 1),
+('43905889J', 2, '2023-01-01', 0),
+('43905889J', 3, '2025-01-31', NULL),
+('43905889J', 5, '2023-02-12', NULL),
+('67492665W', 2, '2023-02-09', 0),
+('67492665W', 3, '2025-01-31', NULL),
+('67492665W', 5, '2023-02-05', NULL),
+('98736290B', 1, '2025-01-31', NULL),
+('98736290B', 2, '2023-01-04', 0),
+('98736290B', 3, '2025-01-31', NULL),
+('98736290B', 5, '2023-01-05', NULL);
 
 -- --------------------------------------------------------
 
@@ -143,17 +145,12 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `correo`, `telefono`, `nombre_usuario`, `clave`, `dni`, `rol`) VALUES
-(1, 'Pepe', 'Juarez', 'user2@gmail.com', 123456789, 'user2', 'user21234', '12345678Z', 'cliente'),
-(2, 'Elusuario', 'elUsuario1', 'user1@gmail.com', 987654321, 'user1', 'user1234', '12345678B', 'cliente'),
-(7, 'admin', 'admin', 'admin@gmail.com', 143569764, 'admin', '1234', '12345678A', 'admin'),
-(8, 'elUsuario3', 'pepe', 'user3@gmail.com', 638204938, 'user3', '3user1234', '40385018G', 'cliente'),
-(9, 'Paco', 'juarez', 'user4@gmail.com', 482603366, 'user4', 'user41234', '98736290B', 'cliente'),
-(10, 'Karen', 'Sal', 'user5@gmail.com', 992864773, 'user4', '4user1234', '38919977Y', 'cliente'),
-(11, 'benito', 'pol', 'user6@gmail.com', 93827564, 'user6', '6user1234', '98375649', 'cliente'),
-(12, 'maria', 'luisa', 'user7@gmail.com', 998670940, 'user7', 'maria', '875544331', 'cliente'),
-(13, 'Antonio', 'Banderas', 'user8@gmail.com', 990387464, 'user8', '8user1234', '98675598B', 'cliente'),
-(14, 'Paca', 'paca', 'user9@gmail.com', 339584712, 'user9', '9user1234', '38594400F', 'cliente'),
-(15, 'Mari', 'Mari', 'user9@gmail.com', 333333334, 'user9', '1234', '38884777U', 'cliente');
+(1, 'admin', 'admin', 'admin@gmail.com', 143569764, 'admin', '1234', '12345678A', 'admin'),
+(2, 'Paco', 'juarez', 'paco@domenico.es', 482603366, 'paco', 'paco', '98736290B', 'cliente'),
+(3, 'Karen', 'Sal', 'karen@domenico.es', 992864773, 'karen', 'karen', '38919977Y', 'cliente'),
+(4, 'Maria', 'Torres', 'maria@domenico.es', 455682267, 'maria', 'maria', '43905889J', 'cliente'),
+(5, 'Tomas', 'Torero', 'tomas@domenico.es', 433678254, 'tomas', 'tomas', '34491564R', 'cliente'),
+(6, 'Paca', 'Ruiz', 'paca@domenico.es', 233658368, 'paca', 'paca', '67492665W', 'cliente');
 
 --
 -- Índices para tablas volcadas
@@ -199,7 +196,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas
