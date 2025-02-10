@@ -109,6 +109,7 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 2. **Importa la base de datos:**Accede a phpMyAdmin o usa el cliente MySQL:
    ```bash
    SOURCE ./database/cursoscp.sql;
+4. **Descargar las respctivas librerías y pegar en el proyecto**.
 3. **Configura la conexión a la base de datos:**Modifica las credenciales en conexion.php:
    ```bash
    $host = "localhost";
