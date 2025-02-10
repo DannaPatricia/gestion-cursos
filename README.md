@@ -157,17 +157,17 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 
  6. **PDF generado por cada profesor admitido**:
 <div align = "center">
-   <img width = "850px"  height = "300px" src = "./imagenesPHP/pdfGenerado.png" alt = "pdgGenereado">
+   <img width = "500px"  height = "300px" src = "./imagenesPHP/pdfGenerado.png" alt = "pdgGenereado">
 </div>
 
  7. **Email enviado con el pdf adjunto para cada admitido**:
 <div align = "center">
-   <img width = "850px"  height = "300px" src = "./imagenesPHP/emailEnviado.png" alt = "pdgGenereado">
+   <img width = "500px"  height = "300px" src = "./imagenesPHP/emailEnviado.png" alt = "pdgGenereado">
 </div>
 
  8. **Uno de los mensajes de error disponibles**:
 <div align = "center">
-   <img width = "850px"  height = "300px" src = "./imagenesPHP/mensajesError.png" alt = "mensajeError">
+   <img width = "500px"  height = "300px" src = "./imagenesPHP/mensajesError.png" alt = "mensajeError">
 </div>
 
 ---
