@@ -1,99 +1,93 @@
 <?php
-    // Función para generar un campo de texto con su correspondiente mensaje de error si no es correcto
-    function generaTexto($nameHtml, $nombreCampo, $valor, $esValorCorrecto, $placeHolder){
-        // Si el valor no es correcto, muestra un mensaje de error
-        $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
-        // Genera el campo de texto con el valor, el mensaje de error (si es necesario) y un placeholder
-        return '<div class="input-container">
-            <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label>
-            <input type="text" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" placeholder="'.$placeHolder.'"/>'.
-            $mensaje.'  <!-- Muestra el mensaje de error, si es necesario -->
+// Función para generar un campo de texto con su etiqueta y validación
+function generaTexto($nameHtml, $nombreCampo, $valor, $esValorCorrecto, $placeHolder){
+    // Si el valor no es correcto, muestra un mensaje de error
+    $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
+    return '<div class="input-container">
+        <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label> <!-- Etiqueta del campo -->
+        <input type="text" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" placeholder="'.$placeHolder.'"/> <!-- Campo de texto -->
+        '.$mensaje.' <!-- Mensaje de error si el valor no es correcto -->
+    </div>';
+}
+
+// Función para generar un campo de tipo password
+function generaPassword($esValorCorrecto){
+    // Si el valor no es correcto, muestra un mensaje de error
+    $mensaje = !$esValorCorrecto ? '<span style="color:red">Contraseña de usuario obligatoria</span>' : '';
+    return '<div class="input-container">
+        <label for="clave">Clave</label> <!-- Etiqueta para la contraseña -->
+        <input type="password" name="clave" id="nombre" placeholder="Inserte clave de usuario"/> <!-- Campo de contraseña -->
+        '.$mensaje.' <!-- Mensaje de error si la contraseña no es correcta -->
+    </div>';
+}
+
+// Función para generar un campo numérico con su etiqueta y validación
+function generaCampoNumerico($nameHtml, $nombreCampo, $valor, $esValorCorrecto, $placeHolder, $mensaje){
+    // Si el valor no es correcto, muestra un mensaje de error
+    $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio, '.$mensaje.'</span>' : '';
+    return '<div class="input-container">
+        <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label> <!-- Etiqueta del campo numérico -->
+        <input type="number" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" placeholder="'.$placeHolder.'"/> <!-- Campo numérico -->
+        '.$mensaje.' <!-- Mensaje de error si el valor no es correcto -->
+    </div>';
+}
+
+// Función para generar un conjunto de botones de opción (radio buttons)
+function generaRadio($nameHtml, $nombreCampo, $arrayValores, $esValorCorrecto, $valor){
+    // Si el valor no es correcto, muestra un mensaje de error
+    $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
+    $html = '<div class="input-container">
+        <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label>'; // Etiqueta para los botones de opción
+    // Genera los radio buttons basados en el array de valores
+    foreach ($arrayValores as $valorAux) {
+        // Si el valor coincide, lo marca como seleccionado
+        $html .= '<input type="radio" name="'.$nameHtml.'" value="' . $valorAux . '" ' . ($valor === $valorAux ? 'checked' : '') . '>' . ucfirst($valorAux) . '';
+    }
+    return $html . $mensaje . '</div>'; // Devuelve el conjunto de radio buttons con el mensaje de error
+}
+
+// Función para generar un botón de envío
+function generaSubmit(){
+    return '<button type="submit" class = "btnEnviar">Enviar</button>';  // Botón de envío con la clase CSS 'btnEnviar'
+}
+
+// Función para generar un botón de opción personalizado (como un botón de envío o similar)
+function generaOpcion($nombre, $valor){
+    return '<button name = "btnEnviar" type="submit" class = "btnEnviar" value = "'.$valor.'">'.$nombre.'</button>';
+}
+
+// Función para generar un campo oculto (hidden) en un formulario
+function generaHidden($nombre, $valor){
+    return '<input type="hidden" name="'.$nombre.'" value = "'.$valor.'">';  // Campo oculto con el valor proporcionado
+}
+
+// Función para generar un campo de tipo fecha con su validación y valor máximo
+function generaDate($nameHtml, $nombreCampo, $esValorCorrecto, $valor, $fechaMax){
+    // Si el valor no es correcto, muestra un mensaje de error
+    $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
+    return '<div class="input-container">
+        <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label> <!-- Etiqueta del campo de fecha -->
+        <input type="date" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" max = "'.$fechaMax.'"> <!-- Campo de fecha -->
+        '.$mensaje.'</div>'; // Devuelve el campo de fecha con el mensaje de error si es necesario
+}
+
+// Función para generar un párrafo con un enunciado y un valor específico
+function generaParrafo($enunciado, $valor){
+    return '<div class="input-container">
+        <p class = "texto">'.$enunciado.': '.$valor.'</p> <!-- Párrafo con el enunciado y valor -->
         </div>';
-    }
+}
 
-    // Función para generar un campo de contraseña con su mensaje de error si no es correcto
-    function generaPassword($esValorCorrecto){
-        // Si el valor no es correcto, muestra un mensaje de error
-        $mensaje = !$esValorCorrecto ? '<span style="color:red">Contraseña de usuario obligatoria</span>' : '';
-        // Genera el campo de contraseña con el mensaje de error (si es necesario)
-        return '<div class="input-container">
-            <label for="clave">Clave</label>
-            <input type="password" name="clave" id="nombre" placeholder="Inserte clave de usuario"/>'.
-            $mensaje.' <!-- Muestra el mensaje de error si es necesario -->
-        </div>';
+// Función para generar un campo de selección (dropdown) con múltiples opciones
+function generaSeleccion($nameHtml, $lista){
+    $selectMultiple = '<div class="input-container">
+    <label for="'.$nameHtml.'">OPcion</label> <!-- Etiqueta del campo de selección -->
+    <select  name="'.$nameHtml.'" id="'.$nameHtml.'">';
+    // Genera las opciones dentro del campo de selección
+    foreach ($lista as $valorAux) {
+        // Si el valor está en la lista, lo marca como seleccionado
+        $selectMultiple .= '<option value="' . $valorAux . '" ' . (in_array($valorAux, $lista) ? 'selected' : '') . '>' . ucfirst($valorAux) . '</option>';
     }
-
-    // Función para generar un campo numérico con su mensaje de error si no es correcto
-    function generaCampoNumerico($nameHtml, $nombreCampo, $valor, $esValorCorrecto, $placeHolder, $mensaje){
-        // Si el valor no es correcto, muestra un mensaje de error
-        $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio, '.$mensaje.'</span>' : '';
-        // Genera el campo numérico con el valor, el mensaje de error y un placeholder
-        return '<div class="input-container">
-            <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label>
-            <input type="number" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" placeholder="'.$placeHolder.'"/>'.
-            $mensaje.' <!-- Muestra el mensaje de error si es necesario -->
-        </div>';
-    }
-
-    // Función para generar botones de opción (radio buttons) con su correspondiente mensaje de error
-    function generaRadio($nameHtml, $nombreCampo, $arrayValores, $esValorCorrecto, $valor){
-        // Si el valor no es correcto, muestra un mensaje de error
-        $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
-        $html = '<div class="input-container">
-            <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label>';
-        // Genera los botones de opción (radio buttons) con las opciones que vienen en el array
-        foreach ($arrayValores as $valorAux) {
-            $html .= '<input type="radio" name="'.$nameHtml.'" value="' . $valorAux . '" ' . ($valor === $valorAux ? 'checked' : '') . '>' . ucfirst($valorAux) . '';
-        }
-        // Devuelve el HTML generado con los radio buttons y el mensaje de error (si es necesario)
-        return $html . $mensaje . '</div>';
-    }
-
-    // Función para generar el botón de envío del formulario
-    function generaSubmit(){
-        return '<button type="submit" class = "btnEnviar">Enviar</button>';
-    }
-
-    // Función para generar un botón con un nombre y valor específicos
-    function generaOpcion($nombre, $valor){
-        return '<button name = "btnEnviar" type="submit" class = "btnEnviar" value = "'.$valor.'">'.$nombre.'</button>';
-    }
-
-    // Función para generar un campo oculto (hidden) con su correspondiente nombre y valor
-    function generaHidden($nombre, $valor){
-        return '<input type="hidden" name="'.$nombre.'" value = "'.$valor.'">';
-    }
-
-    // Función para generar un campo de fecha con un valor máximo y mensaje de error si no es correcto
-    function generaDate($nameHtml, $nombreCampo, $esValorCorrecto, $valor, $fechaMax){
-        // Si el valor no es correcto, muestra un mensaje de error
-        $mensaje = !$esValorCorrecto ? '<span style="color:red">Campo obligatorio</span>' : '';
-        // Genera el campo de fecha con el valor, el mensaje de error y un valor máximo para la fecha
-        return '<div class="input-container">
-            <label for="'.$nameHtml.'">'.ucfirst($nombreCampo).'</label>
-            <input type="date" name="'.$nameHtml.'" id="'.$nameHtml.'" value = "'.$valor.'" max = "'.$fechaMax.'">
-            '.$mensaje.'</div>';
-    }
-
-    // Función para generar un párrafo con un enunciado y un valor (por ejemplo, mostrar un resumen)
-    function generaParrafo($enunciado, $valor){
-        return '<div class="input-container">
-            <p class = "texto">'.$enunciado.': '.$valor.'</p>
-            </div>';
-    }
-
-    // Función para generar un campo de selección (dropdown list) con las opciones que vienen en el array
-    function generaSeleccion($nameHtml, $lista){
-        // Inicia el contenedor del select
-        $selectMultiple = '<div class="input-container">
-        <label for="'.$nameHtml.'">OPcion</label>
-        <select  name="'.$nameHtml.'" id="'.$nameHtml.'">';
-        // Recorre la lista de opciones y crea las opciones dentro del select
-        foreach ($lista as $valorAux) {
-            // Verifica si el valor está seleccionado
-            $selectMultiple .= '<option value="' . $valorAux . '" ' . (in_array($valorAux, $lista) ? 'selected' : '') . '>' . ucfirst($valorAux) . '</option>';
-        }
-        // Cierra el select y devuelve el HTML generado
-        return $selectMultiple;
-    }
+    return $selectMultiple;  // Devuelve el campo de selección con las opciones
+}
 ?>

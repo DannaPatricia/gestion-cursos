@@ -1,93 +1,93 @@
 <?php
-// Configuración para mostrar errores y advertencias
+// Configura la visualización de errores para depuración
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Inclusión de archivos necesarios para el funcionamiento de la página
-include '../header.php';           // Archivo para la cabecera de la página
-include '../footer.php';           // Archivo para el pie de página
-include '../conexionBd.php';       // Archivo para la conexión a la base de datos
-include 'input.php';               // Archivo con funciones para generar formularios
-include 'consultasUsuario.php';    // Archivo con funciones para manejar usuarios en la base de datos
+// Incluye archivos necesarios
+include '../header.php';  // Encabezado de la página
+include '../footer.php';  // Pie de página
+include '../conexionBd.php';  // Conexión a la base de datos
+include 'input.php';  // Funciones para generar inputs de formularios
+include 'consultasUsuario.php';  // Funciones para interactuar con la base de datos relacionadas a usuarios
 
-// Variables para almacenar los valores de los campos del formulario
+// Inicializa los valores de los campos del formulario (si están en POST)
 $valorCampos = [
-    'nombre' => $_POST['nombre'] ?? '', // Recibe el valor del campo 'nombre' del formulario, si existe
-    'clave' => $_POST['clave'] ?? '',   // Recibe el valor del campo 'clave' del formulario, si existe
+    'nombre' => $_POST['nombre'] ?? '',  // Obtiene el nombre de usuario del POST, si no existe deja vacío
+    'clave' => $_POST['clave'] ?? '',    // Obtiene la clave de usuario del POST, si no existe deja vacío
 ];
 
-// Variables para validar los campos del formulario
+// Define si los campos son válidos inicialmente (todos válidos)
 $camposValidos = [
-    'nombre' => true,  // Valor por defecto, se asume que el campo 'nombre' es válido
-    'clave' => true,   // Valor por defecto, se asume que el campo 'clave' es válido
+    'nombre' => true,
+    'clave' => true,
 ];
 
-// Mensaje que se mostrará si ocurre algún error
+// Inicializa el mensaje que se mostrará en el formulario
 $mensaje = '';
 
-// Procesamiento del formulario cuando se realiza el POST
+// Verifica si la solicitud es un POST (envío de formulario)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validación de los campos, comprueba si los campos 'nombre' y 'clave' no están vacíos
+    // Validación de campos (si no están vacíos)
     $camposValidos['nombre'] = !empty($valorCampos['nombre']);
     $camposValidos['clave'] = !empty($valorCampos['clave']);
-    
-    // Si todos los campos son válidos
+
+    // Verifica si todos los campos son válidos
     if (compruebaCampos($camposValidos)) {
-        // Comprobación de las credenciales del usuario en la base de datos
+        // Intenta verificar las credenciales del usuario
         $datosUsuario = compruebaUsuario($pdo, $valorCampos['nombre'], $valorCampos['clave']);
         
-        // Si no se encuentra el usuario, muestra un mensaje de error
+        // Si las credenciales son incorrectas, muestra un mensaje
         if ($datosUsuario === null) {
             $mensaje = '<p class="mensaje">Credenciales incorrectas o usuario no existe</p>';
         } else {
-            // Si el usuario es válido, inicia la sesión y redirige al usuario a la página de cursos
-            session_start();                // Inicia la sesión
-            darDatosSesion($datosUsuario); // Almacena los datos del usuario en la sesión
-            header('Location: ../cursos.php'); // Redirige a la página de cursos
-            exit(); // Termina la ejecución del script después de redirigir
+            // Si las credenciales son correctas, inicia sesión
+            session_start();
+            darDatosSesion($datosUsuario);  // Guarda los datos del usuario en la sesión
+            header('Location: ../cursos.php');  // Redirige al usuario a la página de cursos
+            exit();  // Asegura que no se ejecute más código después de la redirección
         }
     } else {
-        // Si alguno de los campos no es válido, muestra un mensaje de error
+        // Si algún campo no es válido, muestra un mensaje
         $mensaje = '<p class="mensaje">Por favor, completa todos los campos</p>';
     }
 }
 
-// Generación de la página HTML con el formulario, el mensaje (si hay), y el pie de página
+// Genera la estructura HTML del encabezado, formulario, y pie de página
 $html = generaHeader('login.php', 'logout.php', '../index.php', '../cursos.php', '../administrador/opcionesAdmin.php', '../css/style.css');
-$html .= $mensaje; // Agrega el mensaje de error (si existe)
-$html .= generaFormulario($valorCampos, $camposValidos); // Agrega el formulario
-$html .= generaFooter(); // Agrega el pie de página
-echo $html; // Muestra la página generada
+$html .= $mensaje;  // Muestra el mensaje (si hay uno)
+$html .= generaFormulario($valorCampos, $camposValidos);  // Genera el formulario de login
+$html .= generaFooter();  // Genera el pie de página
+
+// Imprime el HTML completo
+echo $html;
 
 // Función que genera el formulario de login
 function generaFormulario($valores, $validos) {
     $html = '<main><form action="login.php" method="post" class="formulario">';
     $html .= '<h2>LOGIN</h2>';
-    // Genera los campos del formulario con las validaciones correspondientes
-    $html .= generaTexto('nombre', 'Nombre de usuario', $valores['nombre'], $validos['nombre'], 'Inserte nombre de usuario');
-    $html .= generaPassword($validos['clave']);
-    // Enlace para registrarse si aún no tienen cuenta
-    $html .= '<p>¿Aún no tienes una cuenta? <a href="registro.php">Registrarse</a></p>';
-    $html .= generaSubmit(); // Genera el botón de envío
+    $html .= generaTexto('nombre', 'Nombre de usuario', $valores['nombre'], $validos['nombre'], 'Inserte nombre de usuario');  // Campo de nombre de usuario
+    $html .= generaPassword($validos['clave']);  // Campo de contraseña
+    $html .= '<p>¿Aún no tienes una cuenta? <a href="registro.php">Registrarse</a></p>';  // Enlace a la página de registro
+    $html .= generaSubmit();  // Botón de envío
     $html .= '</form></main>';
-    return $html; // Devuelve el HTML del formulario generado
+    return $html;
 }
 
-// Función para comprobar si todos los campos son válidos
+// Función que comprueba si todos los campos son válidos
 function compruebaCampos($camposValidos) {
-    return !in_array(false, $camposValidos, true); // Devuelve 'true' si no hay campos inválidos
+    return !in_array(false, $camposValidos, true);  // Devuelve true si todos los campos son válidos
 }
 
-// Función para almacenar los datos del usuario en la sesión
+// Función que guarda los datos del usuario en la sesión
 function darDatosSesion($datosUsuario){
-    $_SESSION['id_usuario'] = $datosUsuario['id'];        // Almacena el ID del usuario
-    $_SESSION['nombre'] = $datosUsuario['nombre'];        // Almacena el nombre del usuario
-    $_SESSION['apellidos'] = $datosUsuario['apellidos'];  // Almacena los apellidos del usuario
-    $_SESSION['email'] = $datosUsuario['correo'];         // Almacena el correo del usuario
-    $_SESSION['telefono'] = $datosUsuario['telefono'];    // Almacena el teléfono del usuario
-    $_SESSION['nombre_usuario'] = $datosUsuario['nombre_usuario']; // Almacena el nombre de usuario
-    $_SESSION['rol'] = $datosUsuario['rol'];              // Almacena el rol del usuario (por ejemplo, admin)
-    $_SESSION['dni'] = $datosUsuario['dni'];              // Almacena el DNI del usuario
+    $_SESSION['id_usuario'] = $datosUsuario['id'];  // Guarda el ID de usuario
+    $_SESSION['nombre'] = $datosUsuario['nombre'];  // Guarda el nombre
+    $_SESSION['apellidos'] = $datosUsuario['apellidos'];  // Guarda los apellidos
+    $_SESSION['email'] = $datosUsuario['correo'];  // Guarda el correo electrónico
+    $_SESSION['telefono'] = $datosUsuario['telefono'];  // Guarda el teléfono
+    $_SESSION['nombre_usuario'] = $datosUsuario['nombre_usuario'];  // Guarda el nombre de usuario
+    $_SESSION['rol'] = $datosUsuario['rol'];  // Guarda el rol (por ejemplo, admin, cliente)
+    $_SESSION['dni'] = $datosUsuario['dni'];  // Guarda el DNI
 }
 ?>

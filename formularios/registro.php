@@ -1,26 +1,28 @@
 <?php
-ini_set('display_errors', 1); // Habilita la visualización de errores.
-ini_set('display_startup_errors', 1); // Habilita los errores durante el arranque.
-error_reporting(E_ALL); // Muestra todos los errores.
+// Configura la visualización de errores para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-include '../header.php'; // Incluye el archivo de cabecera (header.php).
-include '../footer.php'; // Incluye el archivo de pie de página (footer.php).
-include '../conexionBd.php'; // Incluye la conexión a la base de datos (conexionBd.php).
-include 'input.php'; // Incluye funciones para generar los inputs del formulario (input.php).
-include 'consultasUsuario.php'; // Incluye funciones de consulta relacionadas con el usuario (consultasUsuario.php).
+// Incluye archivos necesarios
+include '../header.php';  // Encabezado de la página
+include '../footer.php';  // Pie de página
+include '../conexionBd.php';  // Conexión a la base de datos
+include 'input.php';  // Funciones para generar inputs de formularios
+include 'consultasUsuario.php';  // Funciones para interactuar con la base de datos relacionadas a usuarios
 
-// Se inicializa un array para almacenar los valores de los campos del formulario.
+// Inicializa los valores de los campos del formulario (si están en POST)
 $valorCampos = [
-    'dni' => $_POST['dni'] ?? '',
-    'nombre' => $_POST['nombre'] ?? '',
-    'apellidos' => $_POST['apellidos'] ?? '',
-    'email' => $_POST['email'] ?? '',
-    'telefono' => $_POST['telefono'] ?? '',
-    'usuario' => $_POST['usuario'] ?? '',
-    'clave' => $_POST['clave'] ?? '',
+    'dni' => $_POST['dni'] ?? '',  // Obtiene el DNI del POST, si no existe deja vacío
+    'nombre' => $_POST['nombre'] ?? '',  // Obtiene el nombre del POST
+    'apellidos' => $_POST['apellidos'] ?? '',  // Obtiene los apellidos del POST
+    'email' => $_POST['email'] ?? '',  // Obtiene el email del POST
+    'telefono' => $_POST['telefono'] ?? '',  // Obtiene el teléfono del POST
+    'usuario' => $_POST['usuario'] ?? '',  // Obtiene el nombre de usuario del POST
+    'clave' => $_POST['clave'] ?? '',  // Obtiene la clave del POST
 ];
 
-// Array que define la validez de cada campo (todos inicialmente válidos).
+// Inicializa la validez de los campos (todos válidos inicialmente)
 $camposValidos = [
     'dni' => true,
     'nombre' => true,
@@ -31,93 +33,96 @@ $camposValidos = [
     'clave' => true,
 ];
 
-$mensaje = ''; // Variable para almacenar mensajes de error o éxito.
+// Mensaje que se mostrará si ocurre algún error
+$mensaje = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Si el formulario se envía mediante POST:
-    // Se verifica la validez de cada campo con la función asignarValidez.
+// Verifica si la solicitud es un POST (envío de formulario)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Asigna la validez de los campos basados en los valores ingresados
     $camposValidos = asignarValidez($camposValidos, $valorCampos);
-    
-    // Si todos los campos son válidos:
+
+    // Verifica si todos los campos son válidos
     if (compruebaCampos($camposValidos)) {
-        // Intenta insertar al usuario en la base de datos, pasando los valores del formulario.
+        // Intenta insertar al nuevo usuario
         $datosUsuario = insertaUsuario($pdo, $valorCampos['nombre'], $valorCampos['apellidos'], $valorCampos['email'], $valorCampos['telefono'], $valorCampos['usuario'], $valorCampos['clave'], $valorCampos['dni']);
         
+        // Si no se pudo registrar al usuario, muestra un mensaje de error
         if ($datosUsuario === null) {
-            // Si no se puede registrar (por problemas como DNI ya registrado), muestra un mensaje de error.
             $mensaje = '<p class="mensaje">No se ha podido registrar, DNI con cuenta ya registrada o inserte correctamente los datos</p>';
         } else {
-            // Si el registro es exitoso, se inicia una sesión y se redirige al usuario al login.
+            // Si el registro es exitoso, inicia sesión y redirige al login
             session_start();
-            darDatosSesion($datosUsuario);
-            header('Location: login.php');
-            exit();
+            darDatosSesion($datosUsuario);  // Guarda los datos del usuario en la sesión
+            header('Location: login.php');  // Redirige al login
+            exit();  // Asegura que no se ejecute más código después de la redirección
         }
     } else {
-        // Si algún campo no es válido, muestra un mensaje de error pidiendo completar los campos.
+        // Si algún campo no es válido, muestra un mensaje de error
         $mensaje = '<p class="mensaje">Por favor, completa todos los campos</p>';
     }
 }
 
-// Genera el HTML de la página, incluyendo el encabezado, formulario, mensaje y pie de página.
+// Genera la estructura HTML del encabezado, formulario, y pie de página
 $html = generaHeader('login.php', 'logout.php', '../index.php', '../cursos.php', '../administrador/opcionesAdmin.php', '../css/style.css');
-$html .= $mensaje; // Agrega el mensaje (si existe).
-$html .= generaFormulario($valorCampos, $camposValidos); // Genera el formulario de registro.
-$html .= generaFooter(); // Agrega el pie de página.
-echo $html; // Muestra el HTML final.
+$html .= $mensaje;  // Muestra el mensaje (si hay uno)
+$html .= generaFormulario($valorCampos, $camposValidos);  // Genera el formulario de registro
+$html .= generaFooter();  // Genera el pie de página
 
+// Imprime el HTML completo
+echo $html;
+
+// Función que verifica si todos los campos son válidos
 function compruebaCampos($camposValidos) {
-    // Devuelve true si todos los campos son válidos (no contienen 'false').
-    return !in_array(false, $camposValidos, true);
+    return !in_array(false, $camposValidos, true);  // Devuelve true si todos los campos son válidos
 }
 
+// Función que valida si un número tiene 9 dígitos (para el teléfono)
 function validaNumero($numero){
-    // Verifica que el número de teléfono tenga exactamente 9 caracteres.
-    return strlen($numero) == 9;
+    return strlen($numero) == 9;  // Verifica si la longitud del número es 9
 }
 
+// Función que valida si un correo electrónico tiene el formato correcto
 function validaMail($email){
-    // Verifica que el correo electrónico tenga un formato válido.
-    return filter_var($email, FILTER_VALIDATE_EMAIL);
+    return filter_var($email, FILTER_VALIDATE_EMAIL);  // Utiliza una función de PHP para validar el email
 }
 
+// Función que guarda los datos del usuario en la sesión
 function darDatosSesion($datosUsuario){
-    // Inicializa variables de sesión con los datos del usuario.
-    $_SESSION['id_usuario'] = $datosUsuario['id'];
-    $_SESSION['nombre'] = $datosUsuario['nombre'];
-    $_SESSION['apellidos'] = $datosUsuario['apellidos'];
-    $_SESSION['email'] = $datosUsuario['email'];
-    $_SESSION['telefono'] = $datosUsuario['telefono'];
-    $_SESSION['nombre_usuario'] = $datosUsuario['nombre_usuario'];
-    $_SESSION['rol'] = $datosUsuario['rol'];
-    $_SESSION['dni'] = $datosUsuario['dni'];
+    $_SESSION['id_usuario'] = $datosUsuario['id'];  // Guarda el ID de usuario
+    $_SESSION['nombre'] = $datosUsuario['nombre'];  // Guarda el nombre
+    $_SESSION['apellidos'] = $datosUsuario['apellidos'];  // Guarda los apellidos
+    $_SESSION['email'] = $datosUsuario['email'];  // Guarda el correo electrónico
+    $_SESSION['telefono'] = $datosUsuario['telefono'];  // Guarda el teléfono
+    $_SESSION['nombre_usuario'] = $datosUsuario['nombre_usuario'];  // Guarda el nombre de usuario
+    $_SESSION['rol'] = $datosUsuario['rol'];  // Guarda el rol (por ejemplo, admin, cliente)
+    $_SESSION['dni'] = $datosUsuario['dni'];  // Guarda el DNI
 }
 
+// Función que genera el formulario de registro
 function generaFormulario($valores, $validos) {
-    // Genera el formulario HTML con los valores y la validez de cada campo.
     $html = '<main><form action="registro.php" method="post" class="formulario">';
     $html .= '<h2>REGISTRO</h2>';
-    // Se generan los campos de texto y otros tipos de inputs.
-    $html .= generaTexto('dni', 'DNI', $valores['dni'], $validos['dni'], 'Inserte dni');
-    $html .= generaTexto('nombre', 'Nombre', $valores['nombre'], $validos['nombre'], 'Inserte nombre');
-    $html .= generaTexto('apellidos','Apellidos',  $valores['apellidos'], $validos['apellidos'], 'Inserte apellidos');
-    $html .= generaTexto('email', 'Correo electrónico', $valores['email'], $validos['email'], 'Inserte email, ej: usuario@gmail.com');
-    $html .= generaCampoNumerico('telefono', 'Número de teléfono', $valores['telefono'], $validos['telefono'], 'Inserte número de teléfono', ' deben ser 9 números');
-    $html .= generaTexto('usuario', 'Nombre de usuario', $valores['usuario'], $validos['usuario'], 'Inserte nombre de usuario');
-    $html .= generaPassword($validos['clave']); // Campo de contraseña.
-    $html .= generaSubmit(); // Botón de envío.
+    $html .= generaTexto('dni', 'DNI', $valores['dni'], $validos['dni'], 'Inserte dni');  // Campo para el DNI
+    $html .= generaTexto('nombre', 'Nombre', $valores['nombre'], $validos['nombre'], 'Inserte nombre');  // Campo para el nombre
+    $html .= generaTexto('apellidos','Apellidos',  $valores['apellidos'], $validos['apellidos'], 'Inserte apellidos');  // Campo para los apellidos
+    $html .= generaTexto('email', 'Correo electrónico', $valores['email'], $validos['email'], 'Inserte email, ej: usuario@gmail.com');  // Campo para el correo electrónico
+    $html .= generaCampoNumerico('telefono', 'Número de teléfono', $valores['telefono'], $validos['telefono'], 'Inserte número de teléfono', ' deben ser 9 números');  // Campo para el teléfono
+    $html .= generaTexto('usuario', 'Nombre de usuario', $valores['usuario'], $validos['usuario'], 'Inserte nombre de usuario');  // Campo para el nombre de usuario
+    $html .= generaPassword($validos['clave']);  // Campo para la clave
+    $html .= generaSubmit();  // Botón de envío
     $html .= '</form></main>';
     return $html;
 }
 
+// Función que asigna la validez de cada campo dependiendo de su valor
 function asignarValidez($camposValidos, $valorCampos){
-    // Asigna la validez de cada campo según su contenido y formato.
-    $camposValidos['dni'] = !empty($valorCampos['dni']);
-    $camposValidos['nombre'] = !empty($valorCampos['nombre']);
-    $camposValidos['apellidos'] = !empty($valorCampos['apellidos']);
-    $camposValidos['email'] = !empty($valorCampos['email']) && validaMail($valorCampos['email']);
-    $camposValidos['telefono'] = !empty($valorCampos['telefono']) && validaNumero($valorCampos['telefono']);
-    $camposValidos['usuario'] = !empty($valorCampos['usuario']);
-    $camposValidos['clave'] = !empty($valorCampos['clave']);
-    return $camposValidos;
+    $camposValidos['dni'] = !empty($valorCampos['dni']);  // El DNI no puede estar vacío
+    $camposValidos['nombre'] = !empty($valorCampos['nombre']);  // El nombre no puede estar vacío
+    $camposValidos['apellidos'] = !empty($valorCampos['apellidos']);  // Los apellidos no pueden estar vacíos
+    $camposValidos['email'] = !empty($valorCampos['email']) && validaMail($valorCampos['email']);  // El email debe ser válido
+    $camposValidos['telefono'] = !empty($valorCampos['telefono']) && validaNumero($valorCampos['telefono']);  // El teléfono debe tener 9 dígitos
+    $camposValidos['usuario'] = !empty($valorCampos['usuario']);  // El nombre de usuario no puede estar vacío
+    $camposValidos['clave'] = !empty($valorCampos['clave']);  // La clave no puede estar vacía
+    return $camposValidos;  // Devuelve los campos con su validez actualizada
 }
 ?>
