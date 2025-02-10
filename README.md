@@ -99,7 +99,8 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 2. **Servidor local** (como XAMPP, WAMP o MAMP).
 3. **Librería para generar pdf** (Yo usé FPDF: [FPDF](http://www.fpdf.org/)).
 4. **Librería para enviar emails** (Yo usé PHPMailer: [PHPMailer](https://github.com/PHPMailer/PHPMailer)).
-5. **MySQL**.
+5. **Servidor mail (ej:axigen)**.
+6. **MySQL**.
 
 ### Configuración:
 1. **Clona este repositorio**:
@@ -154,7 +155,17 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
    <img width = "850px"  height = "300px" src = "./imagenesPHP/resultadoBaremacion.png" alt = "resultadoBaremacion">
 </div>
 
- 6. **Uno de los mensajes de error disponibles**:
+ 6. **PDF generado por cada profesor admitido**:
+<div align = "center">
+   <img width = "850px"  height = "300px" src = "./imagenesPHP/pdfGenerado.png" alt = "pdgGenereado">
+</div>
+
+ 7. **Email enviado con el pdf adjunto para cada admitido**:
+<div align = "center">
+   <img width = "850px"  height = "300px" src = "./imagenesPHP/emailEnviado.png" alt = "pdgGenereado">
+</div>
+
+ 8. **Uno de los mensajes de error disponibles**:
 <div align = "center">
    <img width = "850px"  height = "300px" src = "./imagenesPHP/mensajesError.png" alt = "mensajeError">
 </div>
