@@ -25,6 +25,7 @@ La aplicación está diseñada para gestionar cursos dirigidos a profesores, inc
 - Consulta y gestión de solicitudes:
   - Visualización de la lista de admitidos para cada curso.
   - Realización de la **baremación**:
+    - Bajar la prioridad a solicitantes ya admitidos en otro curso.
     - Ordenar a los solicitantes de mayor a menor puntuación.
     - Admitir a los primeros solicitantes según el número de plazas disponibles.
 
@@ -69,6 +70,8 @@ La aplicación está diseñada para gestionar cursos dirigidos a profesores, inc
 2. **Baremación**:
    - Ordenar a los solicitantes de mayor a menor puntaje.
    - Asignar plazas según el número de vacantes.
+   - Realizar pdf para el solicitante admitido.
+   - Enviar un mail con el pdf adjuntado al solicitante admitido
 3. **Consulta de Admitidos**:
    - Visualizar la lista de admitidos por curso.
 
