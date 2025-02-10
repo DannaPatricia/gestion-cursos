@@ -97,7 +97,9 @@ Consulta el archivo `database/cursoscp.sql` para más detalles sobre la estructu
 ### Requisitos:
 1. **PHP 7.4 o superior**
 2. **Servidor local** (como XAMPP, WAMP o MAMP).
-3. **MySQL**.
+3. **Librería para generar pdf** (Yo usé FPDF: [FPDF](http://www.fpdf.org/)).
+4. **Librería para enviar emails** (Yo usé PHPMailer: [PHPMailer](https://github.com/PHPMailer/PHPMailer)).
+5. **MySQL**.
 
 ### Configuración:
 1. **Clona este repositorio**:
