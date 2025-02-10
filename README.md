@@ -1,4 +1,4 @@
-![Estado](https://img.shields.io/badge/Estado-En%20proceso-yellow?style=plastic)
+![Estado](https://img.shields.io/badge/Estado-Acabado-brightgreen?style=plastic)
 # 📚 Proyecto: Gestión de Cursos para Profesores
 
 ¡Bienvenido/a! Este repositorio contiene una aplicación web desarrollada en **PHP** para la gestión de cursos. El proyecto incluye funcionalidades tanto para usuarios como para administradores, permitiendo la inscripción, administración y baremación de cursos de forma eficiente.
